@@ -1,6 +1,5 @@
 import re
 import os
-
 class Maze:
 
     # Variables
@@ -11,8 +10,10 @@ class Maze:
     start = []
     goals = []
 
+
     def __init__(self):
         self.read_maze()
+
 
     def read_maze(self):
         temp = os.path.dirname(os.path.abspath(__file__))+'/maze.txt'
@@ -110,18 +111,15 @@ class Maze:
             # By using a map function we split a string by whitespaces and convert each of them to an integer.
             indexes = list(map(int, trap.split()))
             self.traps[indexes[0] - 1][indexes[1] - 1] = 1
-
     def set_start(self, start):
         indexes = list(map(int, start.split()))
         self.start.append(indexes[0] - 1)
         self.start.append(indexes[1] - 1)
-
     def set_goals(self, goals):
         for goal in goals:
             indexes = list(map(int, goal.split()))
             indexes = list(map(lambda x: x - 1, indexes))
             self.goals.append(indexes)
-
     def can_pass(self, row, column, direction):
         # Check if the player can pass
         if direction == "east":
@@ -141,3 +139,6 @@ class Maze:
             if row == 0:
                 return False
             return self.walls_horizontal[row - 1][column] == 0
+
+    def save_data(self):
+        return self.size

@@ -4,7 +4,7 @@ Size
 
 Walls
 row 1
-2
+2 
 row 2
 1 4 5
 row 3

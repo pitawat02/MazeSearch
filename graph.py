@@ -40,6 +40,8 @@ class Graph:
         # We will make the cost of root node 0, because that's where we start.
         self.root.cost = 0
 
+        
+
     def create_node(self, x, y):
         node = Node()
 
@@ -150,3 +152,4 @@ class Graph:
 
             # After calculating the total cost, we assign it into node's heuristic...
             node.heuristic = total_cost
+
