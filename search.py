@@ -94,6 +94,8 @@ def dfs_bfs_ids_ucs(algorithm):
     solution = []
     expanded_nodes = []
     iteration = -1
+    node_solution = []
+    temp_node = []
 
     # DFS_BFS_IDS
     while goal_state is None and iteration <= graph.maximum_depth:
@@ -162,9 +164,29 @@ def dfs_bfs_ids_ucs(algorithm):
         solution.insert(0, current)
         # Get the parent node and continue...
         current = current.parent
-
+    
+    for node in solution:
+        temp_node.append(node.x)
+        temp_node.append(node.y)
+        node_solution.append(temp_node)
+        temp_node = []
+    node_solution.append("/")
+    
+    if "IDS" not in algorithm :
+        for node in expanded_nodes:
+            temp_node.append(node.x)
+            temp_node.append(node.y)
+            node_solution.append(temp_node)
+            temp_node = []
+    
+    node_solution.append(solution_cost)
+    
     # Print the results...
-    print_results(algorithm, solution_cost, solution, expanded_nodes)
+    #print_results(algorithm, solution_cost, solution, expanded_nodes) #จะไม่ปรินต์คำตอบคอมเม้นบรรทัดนี้
+
+
+    return node_solution
+
 
 
 def add_to_frontier(current_node, algorithm):

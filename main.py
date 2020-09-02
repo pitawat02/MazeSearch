@@ -63,9 +63,26 @@ if __name__ == "__main__":
 
     draw_maze()
 
-    '''    
+        
     # Setting graph we initiated to search class...
     search.graph = graph
+    state = 1
+    DFS_solution = []
+    DFS_expand = []
+    DFS_answer = search.dfs_bfs_ids_ucs("DFS") #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
+    solution_cost = DFS_answer.pop() #ดึงตัวท้ายที่เป็น Cost 
+    for i in range(len(DFS_answer)): #แยก expand กับ solution
+        if state == 1:
+            if DFS_answer[i] is '/':
+                state = 0
+            else:
+                DFS_solution.append(DFS_answer[i])
+        elif state == 0:
+            DFS_expand.append(DFS_answer[i])
+
+    print(DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
+    print(DFS_expand) #ปรินต์เส้นทางที่ผ่าน
+    print(solution_cost) #ปรินต์คอสที่เก็บไว้
 
     search.depth_first_search()
     search.breath_first_search()
@@ -73,7 +90,9 @@ if __name__ == "__main__":
     #search.uniform_cost_search()
     #search.greedy_best_first_search()
     #search.a_star_search()
-    '''
+    
+    
+
     while True:
         pygame.display.update()
         for event in pygame.event.get():
