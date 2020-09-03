@@ -46,6 +46,23 @@ def draw_maze():
 
     pygame.draw.rect(screen, BLACK, (500, 50, GAMEWIN, GAMEWIN), 5) #draw outer
 
+def extract(cost): #ดึงค่าใน array
+    return cost[0]
+
+def getdata(searchtype,solution,expand,cost): #Function ดึงข้อมูล
+    state = 1
+    answer = search.dfs_bfs_ids_ucs(searchtype) #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
+    cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
+    for i in range(len(answer)): #แยก expand กับ solution
+        if state == 1:
+            if answer[i] is '/':
+                state = 0
+            else:
+                solution.append(answer[i])
+        elif state == 0:
+            expand.append(answer[i])
+    
+
 if __name__ == "__main__":
     graph = Graph()
 
@@ -66,27 +83,49 @@ if __name__ == "__main__":
         
     # Setting graph we initiated to search class...
     search.graph = graph
-    state = 1
+
+    #-------------------DFS------------------------
     DFS_solution = []
     DFS_expand = []
-    DFS_answer = search.dfs_bfs_ids_ucs("DFS") #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
-    solution_cost = DFS_answer.pop() #ดึงตัวท้ายที่เป็น Cost 
-    for i in range(len(DFS_answer)): #แยก expand กับ solution
-        if state == 1:
-            if DFS_answer[i] is '/':
-                state = 0
-            else:
-                DFS_solution.append(DFS_answer[i])
-        elif state == 0:
-            DFS_expand.append(DFS_answer[i])
+    DFS_cost = []
+    getdata("DFS",DFS_solution,DFS_expand,DFS_cost)
+    DFS_cost = extract(DFS_cost)
+    #----------------------------------------------
 
-    print(DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    print(DFS_expand) #ปรินต์เส้นทางที่ผ่าน
-    print(solution_cost) #ปรินต์คอสที่เก็บไว้
+    print("DFS Example")
+    print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
+    print("Expanded : ", DFS_expand) #ปรินต์เส้นทางที่ผ่าน
+    print("Cost : ", DFS_cost) #ปรินต์คอสที่เก็บไว้
 
-    search.depth_first_search()
-    search.breath_first_search()
-    search.iterative_deepening_search()
+    #-------------------BFS------------------------
+    BFS_solution = []
+    BFS_expand = []
+    BFS_cost = []
+    getdata("BFS",BFS_solution,BFS_expand,BFS_cost)
+    BFS_cost = extract(BFS_cost)
+    #----------------------------------------------
+
+    print("BFS Example")
+    print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
+    print("Expanded : ", BFS_expand) #ปรินต์เส้นทางที่ผ่าน
+    print("Cost : ", BFS_cost) #ปรินต์คอสที่เก็บไว้
+
+    #-------------------IDS------------------------
+    IDS_solution = []
+    IDS_expand = []
+    IDS_cost = []
+    getdata("IDS",IDS_solution,IDS_expand,IDS_cost)
+    IDS_cost = extract(IDS_cost)
+    #----------------------------------------------
+
+    print("IDS Example")
+    print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
+    print("Expanded : ", IDS_expand) #ปรินต์เส้นทางที่ผ่าน
+    print("Cost : ", IDS_cost) #ปรินต์คอสที่เก็บไว้
+
+    #search.depth_first_search()
+    #search.breath_first_search()
+    #search.iterative_deepening_search()
     #search.uniform_cost_search()
     #search.greedy_best_first_search()
     #search.a_star_search()
