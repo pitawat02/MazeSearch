@@ -5,6 +5,7 @@ import time
 import random
 from pygame.locals import *
 import sys
+from timeit import default_timer as timer
 
 # set up pygame window
 WIDTH = 1600
@@ -49,9 +50,10 @@ def draw_maze():
 def extract(cost): #ดึงค่าใน array
     return cost[0]
 
-def getdata(searchtype,solution,expand,cost): #Function ดึงข้อมูล
+def getdata(searchtype,solution,expand,cost,timeExecute): #Function ดึงข้อมูล
     state = 1
     answer = search.dfs_bfs_ids_ucs(searchtype) #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
+    timeExecute.append(answer.pop())
     cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
     for i in range(len(answer)): #แยก expand กับ solution
         if state == 1:
@@ -62,7 +64,6 @@ def getdata(searchtype,solution,expand,cost): #Function ดึงข้อมู
         elif state == 0:
             expand.append(answer[i])
     
-
 if __name__ == "__main__":
     graph = Graph()
 
@@ -88,40 +89,48 @@ if __name__ == "__main__":
     DFS_solution = []
     DFS_expand = []
     DFS_cost = []
-    getdata("DFS",DFS_solution,DFS_expand,DFS_cost)
+    DFS_time = []
+    getdata("DFS",DFS_solution,DFS_expand,DFS_cost,DFS_time)
     DFS_cost = extract(DFS_cost)
+    DFS_time = extract(DFS_time)
     #----------------------------------------------
 
     print("DFS Example")
     print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
     print("Expanded : ", DFS_expand) #ปรินต์เส้นทางที่ผ่าน
     print("Cost : ", DFS_cost) #ปรินต์คอสที่เก็บไว้
-
+    print("Time : ", DFS_time)
     #-------------------BFS------------------------
     BFS_solution = []
     BFS_expand = []
     BFS_cost = []
-    getdata("BFS",BFS_solution,BFS_expand,BFS_cost)
+    BFS_time = []
+    getdata("BFS",BFS_solution,BFS_expand,BFS_cost,BFS_time)
     BFS_cost = extract(BFS_cost)
+    BFS_time = extract(BFS_time)
     #----------------------------------------------
 
     print("BFS Example")
     print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
     print("Expanded : ", BFS_expand) #ปรินต์เส้นทางที่ผ่าน
     print("Cost : ", BFS_cost) #ปรินต์คอสที่เก็บไว้
-
+    print("Time : ", BFS_time)
     #-------------------IDS------------------------
     IDS_solution = []
     IDS_expand = []
     IDS_cost = []
-    getdata("IDS",IDS_solution,IDS_expand,IDS_cost)
+    IDS_time = []
+    getdata("IDS",IDS_solution,IDS_expand,IDS_cost,IDS_time)
     IDS_cost = extract(IDS_cost)
+    IDS_time = extract(IDS_time)
     #----------------------------------------------
 
     print("IDS Example")
     print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
     print("Expanded : ", IDS_expand) #ปรินต์เส้นทางที่ผ่าน
     print("Cost : ", IDS_cost) #ปรินต์คอสที่เก็บไว้
+    print("Time : ", IDS_time)
+
 
     #search.depth_first_search()
     #search.breath_first_search()
@@ -131,6 +140,13 @@ if __name__ == "__main__":
     #search.a_star_search()
     
     
+    font = pygame.font.SysFont("Arial",30)
+    DFS_text = font.render("DFS : "+ str(DFS_time), True , BLACK)
+    BFS_text = font.render("BFS : "+ str(BFS_time), True , BLACK)
+    IDS_text = font.render("IDS  : "+ str(IDS_time), True , BLACK)
+    screen.blit(DFS_text,(50,100))
+    screen.blit(BFS_text,(50,150))
+    screen.blit(IDS_text,(50,200))
 
     while True:
         pygame.display.update()

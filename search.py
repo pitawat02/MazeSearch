@@ -1,5 +1,5 @@
+from timeit import default_timer as timer
 from collections import OrderedDict
-
 
 # ############################################## GLOBAL VARIABLES
 graph = None
@@ -96,7 +96,7 @@ def dfs_bfs_ids_ucs(algorithm):
     iteration = -1
     node_solution = []
     temp_node = []
-
+    time_start = timer()
     # DFS_BFS_IDS
     while goal_state is None and iteration <= graph.maximum_depth:
 
@@ -180,6 +180,9 @@ def dfs_bfs_ids_ucs(algorithm):
 
 
     node_solution.append(solution_cost)
+    time_end = timer()
+    time_execute = time_end-time_start
+    node_solution.append(time_execute)
     
     # Print the results...
     #print_results(algorithm, solution_cost, solution, expanded_nodes) #จะไม่ปรินต์คำตอบคอมเม้นบรรทัดนี้
