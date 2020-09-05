@@ -38,10 +38,12 @@ BFS_butt = smallfont.render('BFS' , True , BLACK)
 end_butt = smallfont.render('END' , True , BLACK)
 
 def draw_maze():
+
+    pygame.draw.rect(screen, WHITE, (500, 50, GAMEWIN, GAMEWIN)) #draw outer
     pygame.draw.rect(screen, BLUE, (500+linewidth/2+start[1]*linesizex, 50+linewidth/2+start[0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw start
 
     for i in range(len(goals)):
-        pygame.draw.rect(screen, YELLOW, (500+linewidth/2+goals[i][1]*linesizex, 50+linewidth/2+goals[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw start
+        pygame.draw.rect(screen, YELLOW, (500+linewidth/2+goals[i][1]*linesizex, 50+linewidth/2+goals[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw goals
 
     for i in range(size[0]):    #draw vertical line
         for j in range(size[1]-1):
@@ -52,7 +54,8 @@ def draw_maze():
         for j in range(size[1]):
             if(walls_horizontal[i][j] == 1):
                 pygame.draw.line(screen, BLACK, (500+linesizex*(j),50+linesizey*(i+1)), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth)
-
+    
+    
     pygame.draw.rect(screen, BLACK, (500, 50, GAMEWIN, GAMEWIN), 5) #draw outer
 
 def extract(cost): #ดึงค่าใน array
@@ -89,7 +92,8 @@ def draw_button():
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT: 
                 pygame.quit()   
-            if ev.type == pygame.MOUSEBUTTONDOWN: 
+            elif ev.type == pygame.MOUSEBUTTONDOWN:
+                draw_maze() 
                 if WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and HEIGHT/10 <= mouse[1] <= HEIGHT/10 + 50: 
                     DFS()  
                 elif WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and HEIGHT/10+70 <= mouse[1] <= HEIGHT/10 + 120: 
