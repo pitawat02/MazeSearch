@@ -50,12 +50,12 @@ def draw_maze():
     for i in range(size[0]):    #draw vertical line
         for j in range(size[1]-1):
             if(wall_vertical[i][j] == 1):
-                pygame.draw.line(screen, BLACK, (500+linesizex*(j+1),50+linesizey*i), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth)
+                pygame.draw.line(screen, BLACK, (500+linesizex*(j+1),50+linesizey*i), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth+1)
             
     for i in range(size[0]-1):    #draw horizontal line
         for j in range(size[1]):
             if(walls_horizontal[i][j] == 1):
-                pygame.draw.line(screen, BLACK, (500+linesizex*(j),50+linesizey*(i+1)), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth)
+                pygame.draw.line(screen, BLACK, (500+linesizex*(j),50+linesizey*(i+1)), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth+1)
     
     
     pygame.draw.rect(screen, BLACK, (500, 50, GAMEWINX, GAMEWINY), 5) #draw outer
@@ -131,7 +131,7 @@ def draw_answer(ans, c1, c2, c3):
             way.append('down')
     
     for i in range(1,len(ans)-1):
-        pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex, 50+linewidth/2+ans[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2))
+        pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
         pygame.display.update()
             # pygame.display.set_caption(way[i])
         time.sleep(0.0001)
@@ -236,6 +236,7 @@ if __name__ == "__main__":
     goals = graph.maze.goals
 
     search.graph = graph
+    
     draw_maze()
     draw_button()
 
