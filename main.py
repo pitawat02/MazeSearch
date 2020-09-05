@@ -97,8 +97,8 @@ def draw_button():
                 pygame.quit()   
             elif ev.type == pygame.MOUSEBUTTONDOWN:
                 draw_maze() 
-                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 810 <= mouse[1] <= 910: 
-                    DFS()  
+                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 710 <= mouse[1] <= 810: 
+                    IDS()  
                 elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 810 <= mouse[1] <= 910: 
                     BFS()
                 elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 810 <= mouse[1] <= 910: 
@@ -106,7 +106,7 @@ def draw_button():
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
-def draw_answer(ans,color):
+def draw_answer(ans, c1, c2, c3):
     way = []
     for i in range(len(ans)-1):
         if ans[i][0] == ans[i+1][0] and ans[i][1] - ans[i+1][1] == 1:
@@ -123,7 +123,7 @@ def draw_answer(ans,color):
             way.append('down')
     
     for i in range(1,len(ans)-1):
-        pygame.draw.rect(screen, color, (500+linewidth/2+ans[i][1]*linesizex, 50+linewidth/2+ans[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2))
+        pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex, 50+linewidth/2+ans[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2))
         pygame.display.update()
             # pygame.display.set_caption(way[i])
         time.sleep(0.1)
@@ -137,8 +137,8 @@ def DFS():
     DFS_cost = extract(DFS_cost)
     DFS_time = extract(DFS_time)
 
-    draw_answer(DFS_expand, LIGHTBLUE)
-    draw_answer(DFS_solution, LIGHTGREEN)
+    draw_answer(DFS_expand, 0, 135, 162)
+    draw_answer(DFS_solution, 152,251,152)
 
     print("DFS Example")
     print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
@@ -164,8 +164,8 @@ def BFS():
     BFS_cost = extract(BFS_cost)
     BFS_time = extract(BFS_time)
 
-    draw_answer(BFS_expand, LIGHTBLUE)
-    draw_answer(BFS_solution, LIGHTGREEN)
+    draw_answer(BFS_expand, 0, 135, 162)
+    draw_answer(BFS_solution, 152,251,152)
 
     print("BFS Example")
     print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
@@ -192,8 +192,8 @@ def IDS():
     IDS_cost = extract(IDS_cost)
     IDS_time = extract(IDS_time)
 
-    draw_answer(IDS_expand, LIGHTBLUE)
-    draw_answer(IDS_solution, LIGHTGREEN)
+    draw_answer(IDS_expand, 0, 135, 162)
+    draw_answer(IDS_solution, 152,251,152)
 
     print("IDS Example")
     print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
