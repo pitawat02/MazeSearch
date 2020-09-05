@@ -34,9 +34,6 @@ class Graph:
         # Finding maximum depth.
         self.maximum_depth = self.find_maximum_depth() - 1
 
-        # Creating heuristic...
-        self.create_heuristic()
-
         # We will make the cost of root node 0, because that's where we start.
         self.root.cost = 0
 
@@ -116,40 +113,3 @@ class Graph:
     def clear_parents(self):
         for node in self.nodes:
             node.parent = None
-
-    def create_heuristic(self):
-        # Create a heuristic for each node...
-        for node in self.nodes:
-            # Select minimum distance to a closest goal...
-            total_cost = sys.maxsize
-            for goal in self.maze.goals:
-                cost = 0
-                vertical_distance = goal[1] - node.y
-                horizontal_distance = goal[0] - node.x
-
-                # Then we will add each node's cost until to the goal state...
-                x = 0
-                y = 0
-                while vertical_distance > 0:
-                    y += 1
-                    cost += self.get_node_cost(node.x, node.y + y)
-                    vertical_distance -= 1
-                while horizontal_distance > 0:
-                    x += 1
-                    cost += self.get_node_cost(node.x + x, node.y + y)
-                    horizontal_distance -= 1
-                while vertical_distance < 0:
-                    y -= 1
-                    cost += self.get_node_cost(node.x + x, node.y + y)
-                    vertical_distance += 1
-                while horizontal_distance < 0:
-                    x -= 1
-                    cost += self.get_node_cost(node.x + x, node.y + y)
-                    horizontal_distance += 1
-
-                # Select the minimum heuristic...
-                total_cost = min(total_cost, cost)
-
-            # After calculating the total cost, we assign it into node's heuristic...
-            node.heuristic = total_cost
-

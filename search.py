@@ -4,86 +4,7 @@ from collections import OrderedDict
 # ############################################## GLOBAL VARIABLES
 graph = None
 frontier = []
-visited = OrderedDict()  # To prevent duplicates, we use OrderedDict
-
-
-def depth_first_search():
-    graph.clear_parents()
-    dfs_bfs_ids_ucs("Depth First Search(DFS):")
-
-
-def breath_first_search():
-    graph.clear_parents()
-    dfs_bfs_ids_ucs("Breath First Search(BFS):")
-
-
-def iterative_deepening_search():
-    graph.clear_parents()
-    dfs_bfs_ids_ucs("Iterative Deepening Search(IDS):")
-
-
-def uniform_cost_search():
-    graph.clear_parents()
-    dfs_bfs_ids_ucs("Uniform Cost Search(UCS):")
-
-
-def greedy_best_first_search():
-    graph.clear_parents()
-    heuristic_search("Greedy Best First Search(GBFS):", return_heuristic)
-
-
-def a_star_search():
-    graph.clear_parents()
-    heuristic_search("A Star Search(A*):", return_cost_and_heuristic)
-
-
-def heuristic_search(algorithm, sort_by):
-
-    # Variables
-    goal_state = None
-    solution_cost = 0
-    solution = []
-
-    # Lets clear frontier and visited, then add root element to the frontier.
-    frontier.clear()
-    visited.clear()
-    frontier.append(graph.root)
-
-    while len(frontier) > 0:
-
-        # Firstly, we need to sort the frontier according to heuristic...
-        sort_frontier(sort_by)
-
-        # We need to remove the correct node from the frontier and add it to the visited.
-        current_node = frontier.pop(0)
-        visited[current_node] = None
-
-        # Stop GBFS, if we are in a goal state...
-        if is_goal(current_node):
-            goal_state = current_node
-            break
-
-        # print(current_node, current_node.parent)
-
-        # Add to frontier as in BFS.
-        add_to_frontier(current_node, "BFS")
-
-    # Check if GBFS was successful...
-    if goal_state is not None:
-
-        # We need to calculate the cost of the solution AND get the solution itself...
-        current = goal_state
-        while current is not None:
-            solution_cost += current.cost
-            solution.insert(0, current)
-            # Get the parent node and continue...
-            current = current.parent
-
-        # Print the results...
-        print_results(algorithm, solution_cost, solution, visited)
-    else:
-        print("No goal state found.")
-
+visited = OrderedDict()  
 
 def dfs_bfs_ids_ucs(algorithm):
     
@@ -185,9 +106,6 @@ def dfs_bfs_ids_ucs(algorithm):
     time_execute = time_end-time_start
     node_solution.append(time_execute)
     
-    # Print the results...
-    #print_results(algorithm, solution_cost, solution, expanded_nodes) #จะไม่ปรินต์คำตอบคอมเม้นบรรทัดนี้
-
     return node_solution
 
 
@@ -234,36 +152,8 @@ def is_goal(node):
     return False
 
 
-def print_results(algorithm, solution_cost, solution, expanded_nodes):
-    print(algorithm)
-    print("Cost of the solution:", solution_cost)
-    print("The solution path (" + str(len(solution)) + " nodes):", end=" ")
-    for node in solution:
-        print(node, end=" ")
-    print("\nExpanded nodes (" + str(len(expanded_nodes)) + " nodes):", end=" ")
-    if "IDS" in algorithm:
-        print()
-        for i in range(len(expanded_nodes) - 1):
-            if type(expanded_nodes[i+1]) == str:
-                print(expanded_nodes[i],1)
-            else:
-                print(expanded_nodes[i], end=" ")
-    else:
-        for node in expanded_nodes:
-            print(node, end=" ")
-    print("\n")
-
-
 def return_cost(node):
     return node.cost
-
-
-def return_heuristic(node):
-    return node.heuristic
-
-
-def return_cost_and_heuristic(node):
-    return node.heuristic + node.cost
 
 
 def sort_frontier(sort_by):
