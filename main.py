@@ -102,7 +102,7 @@ def draw_button():
                 elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 810 <= mouse[1] <= 910: 
                     BFS()
                 elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 810 <= mouse[1] <= 910: 
-                    None #ของ IDS
+                    IDS() #ของ IDS
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
@@ -146,8 +146,14 @@ def DFS():
     print("Cost : ", DFS_cost) #ปรินต์คอสที่เก็บไว้
     print("Time : ", DFS_time)
 
-    DFS_text = font.render("DFS : "+ str(DFS_time), True , BLACK)
-    screen.blit(DFS_text,(50,400))
+    DFS_text1 = font.render("DFS Summary", True , BLACK)
+    DFS_text2 = font.render("Search time : "+ str(round(DFS_time,10)), True , BLACK)
+    DFS_text3 = font.render("Cost : "+ str(DFS_cost), True , BLACK)
+    DFS_text4 = font.render("Visited Node : "+ str(len(DFS_expand)), True , BLACK)
+    screen.blit(DFS_text1,(100,530))
+    screen.blit(DFS_text2,(100,600))
+    screen.blit(DFS_text3,(100,650))
+    screen.blit(DFS_text4,(100,700))
 
 def BFS():
     BFS_solution = []
@@ -167,9 +173,15 @@ def BFS():
     print("Cost : ", BFS_cost) #ปรินต์คอสที่เก็บไว้
     print("Time : ", BFS_time)
 
-    
-    BFS_text = font.render("BFS : "+ str(BFS_time), True , BLACK)
-    screen.blit(BFS_text,(50,450))
+    BFS_text1 = font.render("BFS Summary", True , BLACK)    
+    BFS_text2 = font.render("Search time : "+ str(round(BFS_time,10)), True , BLACK)
+    BFS_text3 = font.render("Cost : "+ str(BFS_cost), True , BLACK)
+    BFS_text4 = font.render("Visited Node : "+ str(len(BFS_expand)), True , BLACK)
+    screen.blit(BFS_text1,(600,530))
+    screen.blit(BFS_text2,(600,600))
+    screen.blit(BFS_text3,(600,650))
+    screen.blit(BFS_text4,(600,700))
+
     
 def IDS():
     IDS_solution = []
@@ -180,15 +192,23 @@ def IDS():
     IDS_cost = extract(IDS_cost)
     IDS_time = extract(IDS_time)
 
+    draw_answer(IDS_expand, LIGHTBLUE)
+    draw_answer(IDS_solution, LIGHTGREEN)
+
     print("IDS Example")
     print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
     print("Expanded : ", IDS_expand) #ปรินต์เส้นทางที่ผ่าน
     print("Cost : ", IDS_cost) #ปรินต์คอสที่เก็บไว้
     print("Time : ", IDS_time)
 
-    IDS_text = font.render("IDS  : "+ str(IDS_time), True , BLACK)
-    screen.blit(IDS_text,(50,500))
-
+    IDS_text1 = font.render("IDS Summary", True , BLACK)    
+    IDS_text2 = font.render("Search time : "+ str(round(IDS_time,10)), True , BLACK)
+    IDS_text3 = font.render("Cost : "+ str(IDS_cost), True , BLACK)
+    IDS_text4 = font.render("Visited Node : "+ str(len(IDS_expand)), True , BLACK)
+    screen.blit(IDS_text1,(1100,530))
+    screen.blit(IDS_text2,(1100,600))
+    screen.blit(IDS_text3,(1100,650))
+    screen.blit(IDS_text4,(1100,700))
 
 if __name__ == "__main__":
     graph = Graph()
