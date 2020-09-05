@@ -9,7 +9,7 @@ from timeit import default_timer as timer
 
 # set up pygame window
 WIDTH = 1500
-HEIGHT = 900
+HEIGHT = 800
 FPS = 30
 GAMEWINY = 400
 GAMEWINX = 400
