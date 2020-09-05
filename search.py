@@ -86,7 +86,8 @@ def heuristic_search(algorithm, sort_by):
 
 
 def dfs_bfs_ids_ucs(algorithm):
-
+    
+    graph.clear_parents()
     # Variables
     pop_index = 0
     goal_state = None
