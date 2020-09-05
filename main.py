@@ -98,12 +98,18 @@ def draw_button():
             if ev.type == pygame.QUIT: 
                 pygame.quit()   
             elif ev.type == pygame.MOUSEBUTTONDOWN:
-                draw_maze() 
+                
                 if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(100,450,400,250)) 
+                    draw_maze() 
                     DFS()  
                 elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(600,450,400,250)) 
+                    draw_maze() 
                     BFS()
                 elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(1100,450,400,250)) 
+                    draw_maze() 
                     IDS() #ของ IDS
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
@@ -183,7 +189,6 @@ def BFS():
     screen.blit(BFS_text2,(600,550))
     screen.blit(BFS_text3,(600,600))
     screen.blit(BFS_text4,(600,650))
-
     
 def IDS():
     IDS_solution = []
@@ -233,71 +238,6 @@ if __name__ == "__main__":
     search.graph = graph
     draw_maze()
     draw_button()
-    # Setting graph we initiated to search class...
-    
-
-    #-------------------DFS------------------------
-    # DFS_solution = []
-    # DFS_expand = []
-    # DFS_cost = []
-    # DFS_time = []
-    # getdata("DFS",DFS_solution,DFS_expand,DFS_cost,DFS_time)
-    # DFS_cost = extract(DFS_cost)
-    # DFS_time = extract(DFS_time)
-
-    #----------------------------------------------
-
-    # print("DFS Example")
-    # print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    # print("Expanded : ", DFS_expand) #ปรินต์เส้นทางที่ผ่าน
-    # print("Cost : ", DFS_cost) #ปรินต์คอสที่เก็บไว้
-    # print("Time : ", DFS_time)
-    #-------------------BFS------------------------
-    # BFS_solution = []
-    # BFS_expand = []
-    # BFS_cost = []
-    # BFS_time = []
-    # getdata("BFS",BFS_solution,BFS_expand,BFS_cost,BFS_time)
-    # BFS_cost = extract(BFS_cost)
-    # BFS_time = extract(BFS_time)
-    #----------------------------------------------
-
-    # print("BFS Example")
-    # print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    # print("Expanded : ", BFS_expand) #ปรินต์เส้นทางที่ผ่าน
-    # print("Cost : ", BFS_cost) #ปรินต์คอสที่เก็บไว้
-    # print("Time : ", BFS_time)
-    #-------------------IDS------------------------
-    # IDS_solution = []
-    # IDS_expand = []
-    # IDS_cost = []
-    # IDS_time = []
-    # getdata("IDS",IDS_solution,IDS_expand,IDS_cost,IDS_time)
-    # IDS_cost = extract(IDS_cost)
-    # IDS_time = extract(IDS_time)
-    # #----------------------------------------------
-
-    # print("IDS Example")
-    # print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    # print("Expanded : ", IDS_expand) #ปรินต์เส้นทางที่ผ่าน
-    # print("Cost : ", IDS_cost) #ปรินต์คอสที่เก็บไว้
-    # print("Time : ", IDS_time)
-
-
-    #search.depth_first_search()
-    #search.breath_first_search()
-    #search.iterative_deepening_search()
-    #search.uniform_cost_search()
-    #search.greedy_best_first_search()
-    #search.a_star_search()
-
-    # font = pygame.font.SysFont("Arial",30)
-    # DFS_text = font.render("DFS : "+ str(DFS_time), True , BLACK)
-    # BFS_text = font.render("BFS : "+ str(BFS_time), True , BLACK)
-    # IDS_text = font.render("IDS  : "+ str(IDS_time), True , BLACK)
-    # screen.blit(DFS_text,(50,100))
-    # screen.blit(BFS_text,(50,150))
-    # screen.blit(IDS_text,(50,200))
 
     while True:
         pygame.display.update()
