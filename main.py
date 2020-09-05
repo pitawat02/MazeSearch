@@ -35,6 +35,7 @@ smallfont = pygame.font.SysFont('Aerial',35)
 font = pygame.font.SysFont("Arial",30)
 DFS_butt = smallfont.render('DFS' , True , BLACK)
 BFS_butt = smallfont.render('BFS' , True , BLACK)
+IDS_butt = smallfont.render('IDS' , True , BLACK)
 end_butt = smallfont.render('END' , True , BLACK)
 
 def draw_maze():
@@ -79,13 +80,15 @@ def draw_button():
     
     while True: 
         mouse = pygame.mouse.get_pos() 
-        pygame.draw.rect(screen,(0,0,240),(WIDTH/10,HEIGHT/10,100,50))
-        pygame.draw.rect(screen,YELLOW,(WIDTH/10,HEIGHT/10 + 70,100,50))
-        pygame.draw.rect(screen,(244,0,0),(WIDTH/10,HEIGHT/10 + 140,100,50)) 
+        pygame.draw.rect(screen,(0,0,240),(WIDTH/10+85,810,100,50))
+        pygame.draw.rect(screen,YELLOW,(WIDTH/10+535,810,100,50))
+        pygame.draw.rect(screen,GREEN,(WIDTH/10+985,810,100,50)) 
+        pygame.draw.rect(screen,(244,0,0),(1325,35,100,50)) 
     
-        screen.blit(DFS_butt , (WIDTH/10 + 10 ,100)) 
-        screen.blit(BFS_butt , (WIDTH/10 + 10 ,170))
-        screen.blit(end_butt , (WIDTH/10 + 10 ,240))
+        screen.blit(DFS_butt , (WIDTH/10 + 100 ,820)) 
+        screen.blit(BFS_butt , (WIDTH/10 + 550 ,820))
+        screen.blit(IDS_butt , (WIDTH/10 + 1000 ,820))
+        screen.blit(end_butt , (WIDTH/10 + 1200 ,50))
 
         pygame.display.update()
 
@@ -94,11 +97,13 @@ def draw_button():
                 pygame.quit()   
             elif ev.type == pygame.MOUSEBUTTONDOWN:
                 draw_maze() 
-                if WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and HEIGHT/10 <= mouse[1] <= HEIGHT/10 + 50: 
+                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 810 <= mouse[1] <= 910: 
                     DFS()  
-                elif WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and HEIGHT/10+70 <= mouse[1] <= HEIGHT/10 + 120: 
+                elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 810 <= mouse[1] <= 910: 
                     BFS()
-                elif WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and HEIGHT/10 + 140 <= mouse[1] <= HEIGHT/10 + 190: 
+                elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 810 <= mouse[1] <= 910: 
+                    None #ของ IDS
+                elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
 def draw_answer(ans,color):
