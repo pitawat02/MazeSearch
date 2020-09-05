@@ -10,13 +10,12 @@ class Maze:
     start = []
     goals = []
 
-
     def __init__(self):
         self.read_maze()
 
 
     def read_maze(self):
-        temp = os.path.dirname(os.path.abspath(__file__))+'/maze.txt'
+        temp = os.path.dirname(os.path.abspath(__file__))+'/map/maze8.txt'
         temp = temp.replace("\\","/")
         file = open(temp, "r")
         # Read the first line and remove the newline character at the end

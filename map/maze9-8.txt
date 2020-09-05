@@ -1,10 +1,10 @@
 Size
-8 rows
+9 rows
 8 columns
 
 Walls
 row 1
-2 
+2
 row 2
 1 4 5
 row 3
@@ -31,6 +31,7 @@ column 6
 1 7
 column 7
 1 2 3 4 6
+
 
 Traps
 2 4

@@ -11,7 +11,8 @@ from timeit import default_timer as timer
 WIDTH = 1500
 HEIGHT = 900
 FPS = 30
-GAMEWIN = 400
+GAMEWINY = 400
+GAMEWINX = 400
 
 # Define colours
 WHITE = (255, 255, 255)
@@ -40,7 +41,7 @@ end_butt = smallfont.render('END' , True , BLACK)
 
 def draw_maze():
 
-    pygame.draw.rect(screen, WHITE, (500, 50, GAMEWIN, GAMEWIN)) #draw outer
+    pygame.draw.rect(screen, WHITE, (500, 50, GAMEWINX, GAMEWINY)) #draw outer background
     pygame.draw.rect(screen, BLUE, (500+linewidth/2+start[1]*linesizex, 50+linewidth/2+start[0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw start
 
     for i in range(len(goals)):
@@ -57,7 +58,7 @@ def draw_maze():
                 pygame.draw.line(screen, BLACK, (500+linesizex*(j),50+linesizey*(i+1)), (500+linesizex*(j+1),50+linesizey*(i+1)),linewidth)
     
     
-    pygame.draw.rect(screen, BLACK, (500, 50, GAMEWIN, GAMEWIN), 5) #draw outer
+    pygame.draw.rect(screen, BLACK, (500, 50, GAMEWINX, GAMEWINY), 5) #draw outer
 
 def extract(cost): #ดึงค่าใน array
     return cost[0]
@@ -80,14 +81,14 @@ def draw_button():
     
     while True: 
         mouse = pygame.mouse.get_pos() 
-        pygame.draw.rect(screen,(0,0,240),(WIDTH/10+85,810,100,50))
-        pygame.draw.rect(screen,YELLOW,(WIDTH/10+535,810,100,50))
-        pygame.draw.rect(screen,GREEN,(WIDTH/10+985,810,100,50)) 
+        pygame.draw.rect(screen,(0,0,240),(WIDTH/10+85,710,100,50))
+        pygame.draw.rect(screen,YELLOW,(WIDTH/10+535,710,100,50))
+        pygame.draw.rect(screen,GREEN,(WIDTH/10+985,710,100,50)) 
         pygame.draw.rect(screen,(244,0,0),(1325,35,100,50)) 
     
-        screen.blit(DFS_butt , (WIDTH/10 + 100 ,820)) 
-        screen.blit(BFS_butt , (WIDTH/10 + 550 ,820))
-        screen.blit(IDS_butt , (WIDTH/10 + 1000 ,820))
+        screen.blit(DFS_butt , (WIDTH/10 + 100 ,720)) 
+        screen.blit(BFS_butt , (WIDTH/10 + 550 ,720))
+        screen.blit(IDS_butt , (WIDTH/10 + 1000 ,720))
         screen.blit(end_butt , (WIDTH/10 + 1200 ,50))
 
         pygame.display.update()
@@ -97,16 +98,16 @@ def draw_button():
                 pygame.quit()   
             elif ev.type == pygame.MOUSEBUTTONDOWN:
                 draw_maze() 
-                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 810 <= mouse[1] <= 910: 
+                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 710 <= mouse[1] <= 810: 
                     DFS()  
-                elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 810 <= mouse[1] <= 910: 
+                elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 710 <= mouse[1] <= 810: 
                     BFS()
-                elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 810 <= mouse[1] <= 910: 
+                elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 710 <= mouse[1] <= 810: 
                     IDS() #ของ IDS
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
-def draw_answer(ans,color):
+def draw_answer(ans, c1, c2, c3):
     way = []
     for i in range(len(ans)-1):
         if ans[i][0] == ans[i+1][0] and ans[i][1] - ans[i+1][1] == 1:
@@ -123,10 +124,10 @@ def draw_answer(ans,color):
             way.append('down')
     
     for i in range(1,len(ans)-1):
-        pygame.draw.rect(screen, color, (500+linewidth/2+ans[i][1]*linesizex, 50+linewidth/2+ans[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2))
+        pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex, 50+linewidth/2+ans[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2))
         pygame.display.update()
             # pygame.display.set_caption(way[i])
-        time.sleep(0.1)
+        time.sleep(0.0001)
     
 def DFS():
     DFS_solution = []
@@ -137,8 +138,8 @@ def DFS():
     DFS_cost = extract(DFS_cost)
     DFS_time = extract(DFS_time)
 
-    draw_answer(DFS_expand, LIGHTBLUE)
-    draw_answer(DFS_solution, LIGHTGREEN)
+    draw_answer(DFS_expand, 0, 135, 162)
+    draw_answer(DFS_solution, 152,251,152)
 
     print("DFS Example")
     print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
@@ -150,10 +151,10 @@ def DFS():
     DFS_text2 = font.render("Search time : "+ str(round(DFS_time,10)), True , BLACK)
     DFS_text3 = font.render("Cost : "+ str(DFS_cost), True , BLACK)
     DFS_text4 = font.render("Visited Node : "+ str(len(DFS_expand)), True , BLACK)
-    screen.blit(DFS_text1,(100,530))
-    screen.blit(DFS_text2,(100,600))
-    screen.blit(DFS_text3,(100,650))
-    screen.blit(DFS_text4,(100,700))
+    screen.blit(DFS_text1,(100,480))
+    screen.blit(DFS_text2,(100,550))
+    screen.blit(DFS_text3,(100,600))
+    screen.blit(DFS_text4,(100,650))
 
 def BFS():
     BFS_solution = []
@@ -164,8 +165,8 @@ def BFS():
     BFS_cost = extract(BFS_cost)
     BFS_time = extract(BFS_time)
 
-    draw_answer(BFS_expand, LIGHTBLUE)
-    draw_answer(BFS_solution, LIGHTGREEN)
+    draw_answer(BFS_expand, 0, 135, 162)
+    draw_answer(BFS_solution, 152,251,152)
 
     print("BFS Example")
     print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
@@ -177,10 +178,10 @@ def BFS():
     BFS_text2 = font.render("Search time : "+ str(round(BFS_time,10)), True , BLACK)
     BFS_text3 = font.render("Cost : "+ str(BFS_cost), True , BLACK)
     BFS_text4 = font.render("Visited Node : "+ str(len(BFS_expand)), True , BLACK)
-    screen.blit(BFS_text1,(600,530))
-    screen.blit(BFS_text2,(600,600))
-    screen.blit(BFS_text3,(600,650))
-    screen.blit(BFS_text4,(600,700))
+    screen.blit(BFS_text1,(600,480))
+    screen.blit(BFS_text2,(600,550))
+    screen.blit(BFS_text3,(600,600))
+    screen.blit(BFS_text4,(600,650))
 
     
 def IDS():
@@ -192,8 +193,8 @@ def IDS():
     IDS_cost = extract(IDS_cost)
     IDS_time = extract(IDS_time)
 
-    draw_answer(IDS_expand, LIGHTBLUE)
-    draw_answer(IDS_solution, LIGHTGREEN)
+    draw_answer(IDS_expand, 0, 135, 162)
+    draw_answer(IDS_solution, 152,251,152)
 
     print("IDS Example")
     print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
@@ -205,10 +206,10 @@ def IDS():
     IDS_text2 = font.render("Search time : "+ str(round(IDS_time,10)), True , BLACK)
     IDS_text3 = font.render("Cost : "+ str(IDS_cost), True , BLACK)
     IDS_text4 = font.render("Visited Node : "+ str(len(IDS_expand)), True , BLACK)
-    screen.blit(IDS_text1,(1100,530))
-    screen.blit(IDS_text2,(1100,600))
-    screen.blit(IDS_text3,(1100,650))
-    screen.blit(IDS_text4,(1100,700))
+    screen.blit(IDS_text1,(1100,480))
+    screen.blit(IDS_text2,(1100,550))
+    screen.blit(IDS_text3,(1100,600))
+    screen.blit(IDS_text4,(1100,650))
 
 if __name__ == "__main__":
     graph = Graph()
@@ -216,9 +217,12 @@ if __name__ == "__main__":
     size = graph.maze.size
 
     #initialize
-    linesizex = int(400/size[0])
-    linesizey = int(400/size[1])
+    linesizex = int(GAMEWINX/size[1])
+    linesizey = int(GAMEWINY/size[0])
     linewidth = int(40/size[0])
+    GAMEWINX = linesizex*size[1]
+    GAMEWINY = linesizey*size[0]
+
     wall_vertical = graph.maze.wall_vertical
     walls_horizontal = graph.maze.walls_horizontal
     traps = graph.maze.traps
