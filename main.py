@@ -6,6 +6,7 @@ import random
 from pygame.locals import *
 import sys
 from timeit import default_timer as timer
+import tracemalloc
 
 # set up pygame window
 WIDTH = 1500
@@ -110,7 +111,7 @@ def draw_button():
                 elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 710 <= mouse[1] <= 810: 
                     pygame.draw.rect(screen,GREY,(1100,450,400,250)) 
                     draw_maze() 
-                    IDS() #ของ IDS
+                    IDS()
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
@@ -134,14 +135,18 @@ def draw_answer(ans, c1, c2, c3):
         pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
         pygame.display.update()
             # pygame.display.set_caption(way[i])
-        time.sleep(0.0001)
+        time.sleep(0.01)
     
 def DFS():
     DFS_solution = []
     DFS_expand = []
     DFS_cost = []
     DFS_time = []
+    tracemalloc.start()
     getdata("DFS",DFS_solution,DFS_expand,DFS_cost,DFS_time)
+    current, peak = tracemalloc.get_traced_memory()
+    DFS_peak = peak / 10**3
+    tracemalloc.stop()
     DFS_cost = extract(DFS_cost)
     DFS_time = extract(DFS_time)
 
@@ -155,20 +160,26 @@ def DFS():
     print("Time : ", DFS_time)
 
     DFS_text1 = font.render("DFS Summary", True , BLACK)
-    DFS_text2 = font.render("Search time : "+ str(round(DFS_time,10)), True , BLACK)
-    DFS_text3 = font.render("Cost : "+ str(DFS_cost), True , BLACK)
+    DFS_text2 = font.render("Search time : "+ str(round(DFS_time*1000,5))+" ms", True , BLACK)
+    DFS_text3 = font.render("Solution Path Cost : "+ str(DFS_cost), True , BLACK)
     DFS_text4 = font.render("Visited Node : "+ str(len(DFS_expand)), True , BLACK)
-    screen.blit(DFS_text1,(100,480))
-    screen.blit(DFS_text2,(100,550))
-    screen.blit(DFS_text3,(100,600))
-    screen.blit(DFS_text4,(100,650))
+    DFS_text5 = font.render("Peak memory : "+ str(DFS_peak)+" kB", True , BLACK)
+    screen.blit(DFS_text1,(100,450))
+    screen.blit(DFS_text2,(100,510))
+    screen.blit(DFS_text3,(100,560))
+    screen.blit(DFS_text4,(100,610))
+    screen.blit(DFS_text5,(100,660))
 
 def BFS():
     BFS_solution = []
     BFS_expand = []
     BFS_cost = []
     BFS_time = []
+    tracemalloc.start()
     getdata("BFS",BFS_solution,BFS_expand,BFS_cost,BFS_time)
+    current, peak = tracemalloc.get_traced_memory()
+    BFS_peak = peak / 10**3
+    tracemalloc.stop()
     BFS_cost = extract(BFS_cost)
     BFS_time = extract(BFS_time)
 
@@ -182,20 +193,26 @@ def BFS():
     print("Time : ", BFS_time)
 
     BFS_text1 = font.render("BFS Summary", True , BLACK)    
-    BFS_text2 = font.render("Search time : "+ str(round(BFS_time,10)), True , BLACK)
-    BFS_text3 = font.render("Cost : "+ str(BFS_cost), True , BLACK)
+    BFS_text2 = font.render("Search time : "+ str(round(BFS_time*1000,5))+" ms", True , BLACK)
+    BFS_text3 = font.render("Solution Path Cost : "+ str(BFS_cost), True , BLACK)
     BFS_text4 = font.render("Visited Node : "+ str(len(BFS_expand)), True , BLACK)
-    screen.blit(BFS_text1,(600,480))
-    screen.blit(BFS_text2,(600,550))
-    screen.blit(BFS_text3,(600,600))
-    screen.blit(BFS_text4,(600,650))
+    BFS_text5 = font.render("Peak memory : "+ str(BFS_peak)+" kB", True , BLACK)
+    screen.blit(BFS_text1,(600,450))
+    screen.blit(BFS_text2,(600,510))
+    screen.blit(BFS_text3,(600,560))
+    screen.blit(BFS_text4,(600,610))
+    screen.blit(BFS_text5,(600,660))
     
 def IDS():
     IDS_solution = []
     IDS_expand = []
     IDS_cost = []
     IDS_time = []
+    tracemalloc.start()
     getdata("IDS",IDS_solution,IDS_expand,IDS_cost,IDS_time)
+    current, peak = tracemalloc.get_traced_memory()
+    IDS_peak = peak / 10**3
+    tracemalloc.stop()
     IDS_cost = extract(IDS_cost)
     IDS_time = extract(IDS_time)
 
@@ -209,13 +226,15 @@ def IDS():
     print("Time : ", IDS_time)
 
     IDS_text1 = font.render("IDS Summary", True , BLACK)    
-    IDS_text2 = font.render("Search time : "+ str(round(IDS_time,10)), True , BLACK)
-    IDS_text3 = font.render("Cost : "+ str(IDS_cost), True , BLACK)
+    IDS_text2 = font.render("Search time : "+ str(round(IDS_time*1000,5))+" ms", True , BLACK)
+    IDS_text3 = font.render("Solution Path Cost : "+ str(IDS_cost), True , BLACK)
     IDS_text4 = font.render("Visited Node : "+ str(len(IDS_expand)), True , BLACK)
-    screen.blit(IDS_text1,(1100,480))
-    screen.blit(IDS_text2,(1100,550))
-    screen.blit(IDS_text3,(1100,600))
-    screen.blit(IDS_text4,(1100,650))
+    IDS_text5 = font.render("Peak memory : "+ str(IDS_peak)+" kB", True , BLACK)
+    screen.blit(IDS_text1,(1100,450))
+    screen.blit(IDS_text2,(1100,510))
+    screen.blit(IDS_text3,(1100,560))
+    screen.blit(IDS_text4,(1100,610))
+    screen.blit(IDS_text5,(1100,660))
 
 if __name__ == "__main__":
     graph = Graph()
