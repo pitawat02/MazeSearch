@@ -15,7 +15,7 @@ class Maze:
 
 
     def read_maze(self):
-        temp = os.path.dirname(os.path.abspath(__file__))+'/map/maze24.txt'
+        temp = os.path.dirname(os.path.abspath(__file__))+'/map/maze8.txt'
         temp = temp.replace("\\","/")
         file = open(temp, "r")
         # Read the first line and remove the newline character at the end
@@ -139,5 +139,3 @@ class Maze:
                 return False
             return self.walls_horizontal[row - 1][column] == 0
 
-    def save_data(self):
-        return self.size

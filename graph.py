@@ -25,7 +25,7 @@ class Graph:
 
     nodes = []  # Keeping all nodes in a list to prevent duplicate nodes.
     maze = None
-
+    
     def __init__(self):
         # Creating the graph.
         self.maze = Maze()
@@ -36,7 +36,7 @@ class Graph:
 
         # We will make the cost of root node 0, because that's where we start.
         self.root.cost = 0
-
+        
         
 
     def create_node(self, x, y):
@@ -48,7 +48,7 @@ class Graph:
 
         # Adding the node into the nodes list.
         self.nodes.append(node)
-
+        
         # Setting the cost 1 if it is not a trap square.
         if self.maze.traps[node.x][node.y] == 1:
             node.cost = 7

@@ -153,12 +153,6 @@ def DFS():
     draw_answer(DFS_expand, 0, 135, 162)
     draw_answer(DFS_solution, 152,251,152)
 
-    print("DFS Example")
-    print("Solution : ", DFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    print("Expanded : ", DFS_expand) #ปรินต์เส้นทางที่ผ่าน
-    print("Cost : ", DFS_cost) #ปรินต์คอสที่เก็บไว้
-    print("Time : ", DFS_time)
-
     DFS_text1 = font.render("DFS Summary", True , BLACK)
     DFS_text2 = font.render("Search time : "+ str(round(DFS_time*1000,5))+" ms", True , BLACK)
     DFS_text3 = font.render("Solution Path Cost : "+ str(DFS_cost), True , BLACK)
@@ -186,12 +180,6 @@ def BFS():
     draw_answer(BFS_expand, 0, 135, 162)
     draw_answer(BFS_solution, 152,251,152)
 
-    print("BFS Example")
-    print("Solution : ", BFS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    print("Expanded : ", BFS_expand) #ปรินต์เส้นทางที่ผ่าน
-    print("Cost : ", BFS_cost) #ปรินต์คอสที่เก็บไว้
-    print("Time : ", BFS_time)
-
     BFS_text1 = font.render("BFS Summary", True , BLACK)    
     BFS_text2 = font.render("Search time : "+ str(round(BFS_time*1000,5))+" ms", True , BLACK)
     BFS_text3 = font.render("Solution Path Cost : "+ str(BFS_cost), True , BLACK)
@@ -218,12 +206,6 @@ def IDS():
 
     draw_answer(IDS_expand, 0, 135, 162)
     draw_answer(IDS_solution, 152,251,152)
-
-    print("IDS Example")
-    print("Solution : ", IDS_solution) #ปรินต์เส้นทางที่ถูกต้อง
-    print("Expanded : ", IDS_expand) #ปรินต์เส้นทางที่ผ่าน
-    print("Cost : ", IDS_cost) #ปรินต์คอสที่เก็บไว้
-    print("Time : ", IDS_time)
 
     IDS_text1 = font.render("IDS Summary", True , BLACK)    
     IDS_text2 = font.render("Search time : "+ str(round(IDS_time*1000,5))+" ms", True , BLACK)

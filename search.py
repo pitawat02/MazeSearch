@@ -27,11 +27,6 @@ def dfs_bfs_ids_ucs(algorithm):
         frontier.clear()
         visited.clear()
         frontier.append(graph.root)
-
-        # If IDS, we will add iteration number...
-        #if "IDS" in algorithm:
-        #    expanded_nodes.append("Iteration " + str(iteration) + ":")
-
         while len(frontier) > 0:
 
             # If DFS or IDS, we will remove last node from the frontier.
@@ -39,14 +34,9 @@ def dfs_bfs_ids_ucs(algorithm):
             if "DFS" in algorithm or "IDS" in algorithm:
                 pop_index = len(frontier) - 1
 
-            # IF UCS, we need to sort the frontier according to cost...
-            if "UCS" in algorithm:
-                sort_frontier(return_cost)
-
             # We need to remove the correct node from the frontier according to the algorithm and add it to the visited.
             current_node = frontier.pop(pop_index)
             visited[current_node] = None
-
             # Stop DFS_BFS_IDS, if we are in a goal state...
             if is_goal(current_node):
                 goal_state = current_node
@@ -56,16 +46,17 @@ def dfs_bfs_ids_ucs(algorithm):
             # If IDS, we need to add child nodes according to the iteration number.
             if "IDS" in algorithm:
                 parent = current_node
-                for i in range(iteration):
+                for i in range(iteration): #define that how many times node can loopback
                     # If parent is not none, iterate to upper parent.
                     parent = parent if parent is None else parent.parent
-
-                if parent is None:
+                if parent is None:  #ถ้า depth limit เกิน parent จะไม่ None    
                     add_to_frontier(current_node, "DFS")
+
             # Else, we add all child nodes.
             else:
                 add_to_frontier(current_node, algorithm)
 
+        
         # Add all visited nodes to expanded nodes, before clearing it.
         for node in visited:
             expanded_nodes.append(node)
@@ -150,11 +141,3 @@ def is_goal(node):
         if goal[0] == node.x and goal[1] == node.y:
             return True
     return False
-
-
-def return_cost(node):
-    return node.cost
-
-
-def sort_frontier(sort_by):
-    frontier.sort(key=sort_by)
