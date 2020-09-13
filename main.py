@@ -67,7 +67,7 @@ def extract(cost): #ดึงค่าใน array
 def getdata(searchtype,solution,expand,cost,timeExecute): #Function ดึงข้อมูล
     state = 1
     answer = []
-    answer = search.dfs_bfs_ids_ucs(searchtype) #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
+    answer = search.search_ans(searchtype) #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
     timeExecute.append(answer.pop())
     cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
     for i in range(len(answer)): #แยก expand กับ solution

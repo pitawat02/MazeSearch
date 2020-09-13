@@ -6,7 +6,7 @@ graph = None
 frontier = []
 visited = OrderedDict()  
 
-def dfs_bfs_ids_ucs(algorithm):
+def search_ans(algorithm):
     
     graph.clear_parents()
     # Variables
