@@ -47,7 +47,7 @@ def dfs_bfs_ids_ucs(algorithm):
             if "IDS" in algorithm:
                 parent = current_node
                 for i in range(iteration): #define that how many times node can loopback
-                    # If parent is not none, iterate to upper parent.
+                    # If parent is not none, iteration to upper parent.
                     parent = parent if parent is None else parent.parent
                 if parent is None:  #ถ้า depth limit เกิน parent จะไม่ None    
                     add_to_frontier(current_node, "DFS")
