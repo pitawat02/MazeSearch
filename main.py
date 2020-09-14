@@ -119,23 +119,18 @@ def draw_answer(ans, c1, c2, c3):
     way = []
     for i in range(len(ans)-1):
         if ans[i][0] == ans[i+1][0] and ans[i][1] - ans[i+1][1] == 1:
-                # print('north')
             way.append('left')
         elif ans[i][0] == ans[i+1][0] and ans[i+1][1] - ans[i][1] == 1:
-                # print('south')
             way.append('right')
         elif ans[i][0] - ans[i+1][0] == 1 and ans[i+1][1] == ans[i][1]:
-                # print('west')
             way.append('up')
         elif ans[i+1][0] - ans[i][0] == 1 and ans[i+1][1] == ans[i][1]:
-                # print('west')
             way.append('down')
     
     for i in range(1,len(ans)-1):
         pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
         pygame.display.update()
-            # pygame.display.set_caption(way[i])
-        time.sleep(0.01)
+        time.sleep(0.001)
     
 def DFS():
     DFS_solution = []

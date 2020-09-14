@@ -23,18 +23,16 @@ class Node:
 
 class Graph:
 
-    nodes = []  # Keeping all nodes in a list to prevent duplicate nodes.
+    nodes = [] 
     maze = None
     
     def __init__(self):
-        # Creating the graph.
         self.maze = Maze()
         self.root = self.create_node(self.maze.start[0], self.maze.start[1])
 
         # Finding maximum depth.
         self.maximum_depth = self.find_maximum_depth() - 1
 
-        # We will make the cost of root node 0, because that's where we start.
         self.root.cost = 0
         
         
@@ -42,22 +40,15 @@ class Graph:
     def create_node(self, x, y):
         node = Node()
 
-        # Initializing node's coordinates.
         node.x = x
         node.y = y
 
-        # Adding the node into the nodes list.
         self.nodes.append(node)
         
-        # Setting the cost 1 if it is not a trap square.
-        if self.maze.traps[node.x][node.y] == 1:
-            node.cost = 7
-        else:
-            node.cost = 1
+        node.cost = 1
 
-        # Setting all child nodes.
+        # Set child nodes.
         if self.maze.can_pass(node.x, node.y, "east"):
-            # Before creating a new node, we should check if that node exists. If yes, we don't need to create it.
             node.east = self.node_exists(node.x, node.y + 1)
             if node.east is None:
                 node.east = self.create_node(node.x, node.y + 1)
@@ -99,7 +90,6 @@ class Graph:
                 current_node = current_node.parent
                 local_depth += 1
 
-            # If local_depth is greater, we will set it as maximum_depth.
             maximum_depth = max(maximum_depth, local_depth)
 
         return maximum_depth
