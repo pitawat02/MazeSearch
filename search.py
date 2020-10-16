@@ -5,6 +5,85 @@ graph = None
 frontier = []
 visited = OrderedDict()  
 
+def greedy_best_first_search():
+    graph.clear_parents()
+    heuristic_search("Greedy Best First Search(GBFS):", return_heuristic)
+
+
+def a_star_search():
+    graph.clear_parents()
+    heuristic_search("A Star Search(A*):", return_cost_and_heuristic)
+
+def heuristic_search(algorithm, sort_by):
+
+    graph.clear_parents()
+    
+    # Variables
+    goal_state = None
+    solution_cost = 0
+    solution = []
+    node_solution = []
+    temp_node = []
+    time_start = timer()
+
+    # Lets clear frontier and visited, then add root element to the frontier.
+    frontier.clear()
+    visited.clear()
+    frontier.append(graph.root)
+
+    while len(frontier) > 0:
+
+        # Firstly, we need to sort the frontier according to heuristic...
+        sort_frontier(sort_by)
+
+        # We need to remove the correct node from the frontier and add it to the visited.
+        current_node = frontier.pop(0)
+        visited[current_node] = None
+
+        # Stop GBFS, if we are in a goal state...
+        if is_goal(current_node):
+            goal_state = current_node
+            break
+
+        # print(current_node, current_node.parent)
+
+        # Add to frontier as in BFS.
+        add_to_frontier(current_node, "BFS")
+
+    # Check if GBFS was successful...
+    if goal_state is not None:
+
+        # We need to calculate the cost of the solution AND get the solution itself...
+        current = goal_state
+        while current is not None:
+            solution_cost += current.cost
+            solution.insert(0, current)
+            # Get the parent node and continue...
+            current = current.parent
+
+        for node in solution:
+            temp_node.append(node.x)
+            temp_node.append(node.y)
+            node_solution.append(temp_node)
+            temp_node = []
+        node_solution.append("/")
+    
+        for node in visited:
+            temp_node.append(node.x)
+            temp_node.append(node.y)
+            node_solution.append(temp_node)
+            temp_node = []
+
+
+        node_solution.append(solution_cost)
+        time_end = timer()
+        time_execute = time_end-time_start
+        node_solution.append(time_execute)
+    
+        return node_solution    
+
+    else: print("No goal state found.")
+
 def search_ans(algorithm):
     
     graph.clear_parents()
@@ -123,3 +202,18 @@ def is_goal(node):
         if goal[0] == node.x and goal[1] == node.y:
             return True
     return False
+
+def return_cost(node):
+    return node.cost
+
+
+def return_heuristic(node):
+    return node.heuristic
+
+
+def return_cost_and_heuristic(node):
+    return node.heuristic + node.cost
+
+
+def sort_frontier(sort_by):
+    frontier.sort(key=sort_by)

@@ -21,6 +21,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255 ,255 ,0)
 GREY = (181,181,181)
+GREY2 = (70,70,70)
 BLACK = (0,0,0)
 LIGHTBLUE = (100,149,237)
 LIGHTGREEN = (152,251,152)
@@ -39,6 +40,7 @@ DFS_butt = smallfont.render('DFS' , True , BLACK)
 BFS_butt = smallfont.render('BFS' , True , BLACK)
 IDS_butt = smallfont.render('IDS' , True , BLACK)
 end_butt = smallfont.render('END' , True , BLACK)
+strap = []
 
 def draw_maze():
 
@@ -47,6 +49,12 @@ def draw_maze():
 
     for i in range(len(goals)):
         pygame.draw.rect(screen, YELLOW, (500+linewidth/2+goals[i][1]*linesizex, 50+linewidth/2+goals[i][0]*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw goals
+
+    for i in range(len(traps)):
+        for j in range(len(traps)):
+            if traps[i][j] == 1:
+                pygame.draw.rect(screen, BLACK, (500+linewidth/2+j*linesizex, 50+linewidth/2+i*linesizey, linesizex-linewidth/2, linesizey-linewidth/2)) #draw traps
+                strap.append([i,j])
 
     for i in range(size[0]):    #draw vertical line
         for j in range(size[1]-1):
@@ -65,19 +73,49 @@ def extract(cost): #ดึงค่าใน array
     return cost[0]
 
 def getdata(searchtype,solution,expand,cost,timeExecute): #Function ดึงข้อมูล
-    state = 1
-    answer = []
-    answer = search.search_ans(searchtype) #ตัวอย่างการดึง array คำตอบมาที่ main เอาไปใช้ map คำตอบ //ถ้าจะไม่เอาคำตอบ DFS ทั้งหมด ไปคอมเม้นที่ไฟล์ search.py 
-    timeExecute.append(answer.pop())
-    cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
-    for i in range(len(answer)): #แยก expand กับ solution
-        if state == 1:
-            if answer[i] is '/':
-                state = 0
-            else:
-                solution.append(answer[i])
-        elif state == 0:
-            expand.append(answer[i])
+    if "DFS" in searchtype or "IDS" in searchtype or "BFS" in searchtype:
+        state = 1
+        answer = []
+        answer = search.search_ans(searchtype) 
+        timeExecute.append(answer.pop())
+        cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
+        for i in range(len(answer)): #แยก expand กับ solution
+            if state == 1:
+                if answer[i] is '/':
+                    state = 0
+                else:
+                    solution.append(answer[i])
+            elif state == 0:
+                expand.append(answer[i])
+    elif "a_star" in searchtype:
+        state = 1
+        answer = []
+        answer = search.heuristic_search("A Star Search(A*):", search.return_cost_and_heuristic)
+        timeExecute.append(answer.pop())
+        cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
+        for i in range(len(answer)): #แยก expand กับ solution
+            if state == 1:
+                if answer[i] is '/':
+                    state = 0
+                else:
+                    solution.append(answer[i])
+            elif state == 0:
+                expand.append(answer[i])
+                
+    elif "greedy" in searchtype:
+        state = 1
+        answer = []
+        answer = search.heuristic_search("Greedy Best First Search(GBFS):", search.return_heuristic) 
+        timeExecute.append(answer.pop())
+        cost.append(answer.pop()) #ดึงตัวท้ายที่เป็น Cost 
+        for i in range(len(answer)): #แยก expand กับ solution
+            if state == 1:
+                if answer[i] is '/':
+                    state = 0
+                else:
+                    solution.append(answer[i])
+            elif state == 0:
+                expand.append(answer[i])        
 
 def draw_button():
     
@@ -115,7 +153,7 @@ def draw_button():
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
-def draw_answer(ans, c1, c2, c3):
+def draw_expand(ans, c1, c2, c3):
     way = []
     for i in range(len(ans)-1):
         if ans[i][0] == ans[i+1][0] and ans[i][1] - ans[i+1][1] == 1:
@@ -129,6 +167,26 @@ def draw_answer(ans, c1, c2, c3):
     
     for i in range(1,len(ans)-1):
         pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
+        pygame.display.update()
+        time.sleep(0.001)
+
+def draw_answer(ans, c1, c2, c3):
+    way = []
+    for i in range(len(ans)-1):
+        if ans[i][0] == ans[i+1][0] and ans[i][1] - ans[i+1][1] == 1:
+            way.append('left')
+        elif ans[i][0] == ans[i+1][0] and ans[i+1][1] - ans[i][1] == 1:
+            way.append('right')
+        elif ans[i][0] - ans[i+1][0] == 1 and ans[i+1][1] == ans[i][1]:
+            way.append('up')
+        elif ans[i+1][0] - ans[i][0] == 1 and ans[i+1][1] == ans[i][1]:
+            way.append('down')
+    
+    for i in range(1,len(ans)-1):
+        if ans[i] in strap:
+            pygame.draw.rect(screen, GREY2 , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
+        else:
+            pygame.draw.rect(screen, (c1 + random.randint(0,255-c1), c2 , c3 ) , (500+linewidth/2+ans[i][1]*linesizex + 2, 50+linewidth/2+ans[i][0]*linesizey+2, linesizex-linewidth/2-2, linesizey-linewidth/2-2))
         pygame.display.update()
         time.sleep(0.001)
     
@@ -145,7 +203,7 @@ def DFS():
     DFS_cost = extract(DFS_cost)
     DFS_time = extract(DFS_time)
 
-    draw_answer(DFS_expand, 0, 135, 162)
+    draw_expand(DFS_expand, 0, 135, 162)
     draw_answer(DFS_solution, 152,251,152)
 
     DFS_text1 = font.render("DFS Summary", True , BLACK)
@@ -172,7 +230,7 @@ def BFS():
     BFS_cost = extract(BFS_cost)
     BFS_time = extract(BFS_time)
 
-    draw_answer(BFS_expand, 0, 135, 162)
+    draw_expand(BFS_expand, 0, 135, 162)
     draw_answer(BFS_solution, 152,251,152)
 
     BFS_text1 = font.render("BFS Summary", True , BLACK)    
@@ -199,7 +257,7 @@ def IDS():
     IDS_cost = extract(IDS_cost)
     IDS_time = extract(IDS_time)
 
-    draw_answer(IDS_expand, 0, 135, 162)
+    draw_expand(IDS_expand, 0, 135, 162)
     draw_answer(IDS_solution, 152,251,152)
 
     IDS_text1 = font.render("IDS Summary", True , BLACK)    
@@ -227,9 +285,9 @@ if __name__ == "__main__":
 
     wall_vertical = graph.maze.wall_vertical
     walls_horizontal = graph.maze.walls_horizontal
-    traps = graph.maze.traps
     start = graph.maze.start
     goals = graph.maze.goals
+    traps = graph.maze.traps
 
     search.graph = graph
     

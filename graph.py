@@ -45,8 +45,11 @@ class Graph:
 
         self.nodes.append(node)
         
-        node.cost = 1
-
+        if self.maze.traps[node.x][node.y] == 1:
+            node.cost = 7
+        else:
+            node.cost = 1
+            
         # Set child nodes.
         if self.maze.can_pass(node.x, node.y, "east"):
             node.east = self.node_exists(node.x, node.y + 1)
