@@ -5,15 +5,6 @@ graph = None
 frontier = []
 visited = OrderedDict()  
 
-def greedy_best_first_search():
-    graph.clear_parents()
-    heuristic_search("Greedy Best First Search(GBFS):", return_heuristic)
-
-
-def a_star_search():
-    graph.clear_parents()
-    heuristic_search("A Star Search(A*):", return_cost_and_heuristic)
-
 def heuristic_search(algorithm, sort_by):
 
     graph.clear_parents()

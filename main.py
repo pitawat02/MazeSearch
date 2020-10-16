@@ -196,7 +196,7 @@ def DFS():
     DFS_cost = []
     DFS_time = []
     tracemalloc.start()
-    getdata("DFS",DFS_solution,DFS_expand,DFS_cost,DFS_time)
+    getdata("a_star",DFS_solution,DFS_expand,DFS_cost,DFS_time)
     current, peak = tracemalloc.get_traced_memory()
     DFS_peak = peak / 10**3
     tracemalloc.stop()
