@@ -34,12 +34,14 @@ screen.fill(GREY)
 pygame.display.set_caption("Maze")
 FramePerSec = pygame.time.Clock()
 
-smallfont = pygame.font.SysFont('Aerial',35)
-font = pygame.font.SysFont("Arial",30)
-DFS_butt = smallfont.render('DFS' , True , BLACK)
-BFS_butt = smallfont.render('BFS' , True , BLACK)
-IDS_butt = smallfont.render('IDS' , True , BLACK)
-end_butt = smallfont.render('END' , True , BLACK)
+buttfont = pygame.font.SysFont('Aerial',22)
+font = pygame.font.SysFont("Arial",20)
+DFS_butt = buttfont.render('DFS' , True , BLACK)
+BFS_butt = buttfont.render('BFS' , True , BLACK)
+IDS_butt = buttfont.render('IDS' , True , BLACK)
+ASTAR_butt = buttfont.render('ASTAR' , True , BLACK)
+GREEDY_butt = buttfont.render('GREEDY' , True , BLACK)
+end_butt = buttfont.render('END' , True , BLACK)
 strap = []
 
 def draw_maze():
@@ -121,14 +123,19 @@ def draw_button():
     
     while True: 
         mouse = pygame.mouse.get_pos() 
-        pygame.draw.rect(screen,(0,0,240),(WIDTH/10+85,710,100,50))
-        pygame.draw.rect(screen,YELLOW,(WIDTH/10+535,710,100,50))
-        pygame.draw.rect(screen,GREEN,(WIDTH/10+985,710,100,50)) 
+        pygame.draw.rect(screen,LIGHTBLUE,(WIDTH/10,710,100,50))
+        pygame.draw.rect(screen,YELLOW,(WIDTH/10+250,710,100,50))
+        pygame.draw.rect(screen,GREEN,(WIDTH/10+500,710,100,50)) 
+        pygame.draw.rect(screen,WHITE,(WIDTH/10+800,710,100,50))
+        pygame.draw.rect(screen,WHITE,(WIDTH/10+1050,710,100,50))
         pygame.draw.rect(screen,(244,0,0),(1325,35,100,50)) 
     
-        screen.blit(DFS_butt , (WIDTH/10 + 100 ,720)) 
-        screen.blit(BFS_butt , (WIDTH/10 + 550 ,720))
-        screen.blit(IDS_butt , (WIDTH/10 + 1000 ,720))
+        screen.blit(DFS_butt , (WIDTH/10 + 30 ,730))
+        screen.blit(BFS_butt , (WIDTH/10 + 280 ,730))
+        screen.blit(IDS_butt , (WIDTH/10 + 530 ,730))
+        screen.blit(ASTAR_butt , (WIDTH/10 + 820 ,730))
+        screen.blit(GREEDY_butt , (WIDTH/10 + 1070 ,730))
+
         screen.blit(end_butt , (WIDTH/10 + 1200 ,50))
 
         pygame.display.update()
@@ -136,20 +143,28 @@ def draw_button():
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT: 
                 pygame.quit()   
-            elif ev.type == pygame.MOUSEBUTTONDOWN:
+            elif ev.type == pygame.MOUSEBUTTONDOWN: #กดปุ่ม+ตำแหน่ง
                 
-                if WIDTH/10+85 <= mouse[0] <= WIDTH/10 + 185 and 710 <= mouse[1] <= 810: 
-                    pygame.draw.rect(screen,GREY,(100,450,400,250)) 
+                if WIDTH/10 <= mouse[0] <= WIDTH/10 + 100 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(100,450,200,250))
                     draw_maze() 
                     DFS()  
-                elif WIDTH/10+535 <= mouse[0] <= WIDTH/10 + 635 and 710 <= mouse[1] <= 810: 
-                    pygame.draw.rect(screen,GREY,(600,450,400,250)) 
+                elif WIDTH/10+250 <= mouse[0] <= WIDTH/10 + 350 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(350,450,200,250))
                     draw_maze() 
                     BFS()
-                elif WIDTH/10+985 <= mouse[0] <= WIDTH/10 + 1085 and 710 <= mouse[1] <= 810: 
-                    pygame.draw.rect(screen,GREY,(1100,450,400,250)) 
+                elif WIDTH/10+500 <= mouse[0] <= WIDTH/10 + 600 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(600,450,200,250))
                     draw_maze() 
                     IDS()
+                elif WIDTH/10+800 <= mouse[0] <= WIDTH/10 + 900 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(900,450,200,250))
+                    draw_maze() 
+                    ASTAR()
+                elif WIDTH/10+1050 <= mouse[0] <= WIDTH/10 + 1150 and 710 <= mouse[1] <= 810: 
+                    pygame.draw.rect(screen,GREY,(1150,450,200,250))
+                    draw_maze() 
+                    GREEDY()
                 elif 1325 <= mouse[0] <= 1325 + 100 and 35 <= mouse[1] <= 35+50 : 
                     pygame.quit()
 
@@ -211,11 +226,11 @@ def DFS():
     DFS_text3 = font.render("Solution Path Cost : "+ str(DFS_cost), True , BLACK)
     DFS_text4 = font.render("Visited Node : "+ str(len(DFS_expand)), True , BLACK)
     DFS_text5 = font.render("Peak memory : "+ str(DFS_peak)+" kB", True , BLACK)
-    screen.blit(DFS_text1,(100,450))
-    screen.blit(DFS_text2,(100,510))
-    screen.blit(DFS_text3,(100,560))
-    screen.blit(DFS_text4,(100,610))
-    screen.blit(DFS_text5,(100,660))
+    screen.blit(DFS_text1,(120,450))
+    screen.blit(DFS_text2,(100,500))
+    screen.blit(DFS_text3,(100,530))
+    screen.blit(DFS_text4,(100,560))
+    screen.blit(DFS_text5,(100,590))
 
 def BFS():
     BFS_solution = []
@@ -238,11 +253,11 @@ def BFS():
     BFS_text3 = font.render("Solution Path Cost : "+ str(BFS_cost), True , BLACK)
     BFS_text4 = font.render("Visited Node : "+ str(len(BFS_expand)), True , BLACK)
     BFS_text5 = font.render("Peak memory : "+ str(BFS_peak)+" kB", True , BLACK)
-    screen.blit(BFS_text1,(600,450))
-    screen.blit(BFS_text2,(600,510))
-    screen.blit(BFS_text3,(600,560))
-    screen.blit(BFS_text4,(600,610))
-    screen.blit(BFS_text5,(600,660))
+    screen.blit(BFS_text1,(370,450))
+    screen.blit(BFS_text2,(350,500))
+    screen.blit(BFS_text3,(350,530))
+    screen.blit(BFS_text4,(350,560))
+    screen.blit(BFS_text5,(350,590))
     
 def IDS():
     IDS_solution = []
@@ -265,11 +280,65 @@ def IDS():
     IDS_text3 = font.render("Solution Path Cost : "+ str(IDS_cost), True , BLACK)
     IDS_text4 = font.render("Visited Node : "+ str(len(IDS_expand)), True , BLACK)
     IDS_text5 = font.render("Peak memory : "+ str(IDS_peak)+" kB", True , BLACK)
-    screen.blit(IDS_text1,(1100,450))
-    screen.blit(IDS_text2,(1100,510))
-    screen.blit(IDS_text3,(1100,560))
-    screen.blit(IDS_text4,(1100,610))
-    screen.blit(IDS_text5,(1100,660))
+    screen.blit(IDS_text1,(620,450))
+    screen.blit(IDS_text2,(600,500))
+    screen.blit(IDS_text3,(600,530))
+    screen.blit(IDS_text4,(600,560))
+    screen.blit(IDS_text5,(600,590))
+
+def ASTAR():
+    ASTAR_solution = []
+    ASTAR_expand = []
+    ASTAR_cost = []
+    ASTAR_time = []
+    tracemalloc.start()
+    getdata("a_star",ASTAR_solution,ASTAR_expand,ASTAR_cost,ASTAR_time)
+    current, peak = tracemalloc.get_traced_memory()
+    ASTAR_peak = peak / 10**3
+    tracemalloc.stop()
+    ASTAR_cost = extract(ASTAR_cost)
+    ASTAR_time = extract(ASTAR_time)
+
+    draw_expand(ASTAR_expand, 0, 135, 162)
+    draw_answer(ASTAR_solution, 152,251,152)
+
+    ASTAR_text1 = font.render("ASTAR Summary", True , BLACK)
+    ASTAR_text2 = font.render("Search time : "+ str(round(ASTAR_time*1000,5))+" ms", True , BLACK)
+    ASTAR_text3 = font.render("Solution Path Cost : "+ str(ASTAR_cost), True , BLACK)
+    ASTAR_text4 = font.render("Visited Node : "+ str(len(ASTAR_expand)), True , BLACK)
+    ASTAR_text5 = font.render("Peak memory : "+ str(ASTAR_peak)+" kB", True , BLACK)
+    screen.blit(ASTAR_text1,(920,450))
+    screen.blit(ASTAR_text2,(900,500))
+    screen.blit(ASTAR_text3,(900,530))
+    screen.blit(ASTAR_text4,(900,560))
+    screen.blit(ASTAR_text5,(900,590))
+
+def GREEDY():
+    GREEDY_solution = []
+    GREEDY_expand = []
+    GREEDY_cost = []
+    GREEDY_time = []
+    tracemalloc.start()
+    getdata("greedy",GREEDY_solution,GREEDY_expand,GREEDY_cost,GREEDY_time)
+    current, peak = tracemalloc.get_traced_memory()
+    GREEDY_peak = peak / 10**3
+    tracemalloc.stop()
+    GREEDY_cost = extract(GREEDY_cost)
+    GREEDY_time = extract(GREEDY_time)
+
+    draw_expand(GREEDY_expand, 0, 135, 162)
+    draw_answer(GREEDY_solution, 152,251,152)
+
+    GREEDY_text1 = font.render("GREEDY Summary", True , BLACK)
+    GREEDY_text2 = font.render("Search time : "+ str(round(GREEDY_time*1000,5))+" ms", True , BLACK)
+    GREEDY_text3 = font.render("Solution Path Cost : "+ str(GREEDY_cost), True , BLACK)
+    GREEDY_text4 = font.render("Visited Node : "+ str(len(GREEDY_expand)), True , BLACK)
+    GREEDY_text5 = font.render("Peak memory : "+ str(GREEDY_peak)+" kB", True , BLACK)
+    screen.blit(GREEDY_text1,(1170,450))
+    screen.blit(GREEDY_text2,(1150,500))
+    screen.blit(GREEDY_text3,(1150,530))
+    screen.blit(GREEDY_text4,(1150,560))
+    screen.blit(GREEDY_text5,(1150,590))
 
 if __name__ == "__main__":
     graph = Graph()
