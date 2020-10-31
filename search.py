@@ -31,12 +31,11 @@ def heuristic_search(algorithm, sort_by):
         current_node = frontier.pop(0)
         visited[current_node] = None
 
+
         # Stop GBFS, if we are in a goal state...
         if is_goal(current_node):
             goal_state = current_node
             break
-
-        # print(current_node, current_node.parent)
 
         # Add to frontier as in BFS.
         add_to_frontier(current_node, "BFS")
@@ -173,8 +172,11 @@ def add_to_frontier(current_node, algorithm):
         nodes_to_add.reverse()
 
     for node in nodes_to_add:
+        if node.cost is not 0:
+            node.cur_cost = node.cost+ node.parent.cur_cost
+        else:
+            node.cur_cost = 1
         frontier.append(node)
-
 
 def set_parent(parent_node, child_node, algorithm):
     if "DFS" in algorithm or child_node.parent is None:
@@ -203,7 +205,7 @@ def return_heuristic(node):
 
 
 def return_cost_and_heuristic(node):
-    return node.heuristic + node.cost
+    return node.heuristic + node.cur_cost
 
 
 def sort_frontier(sort_by):

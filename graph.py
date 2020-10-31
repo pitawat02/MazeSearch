@@ -7,6 +7,7 @@ class Node:
         self.x = 0
         self.y = 0
         self.cost = 0
+        self.cur_cost = 0
         self.parent = None
         self.east = None
         self.south = None
@@ -108,9 +109,7 @@ class Graph:
     def get_node_cost(self, x, y):
         for node in self.nodes:
             if node.check_equality(x, y):
-                #print(node.cost)
                 return node.cost
-        #print("no")
         return 0
 
     def clear_parents(self):
@@ -124,10 +123,8 @@ class Graph:
             total_cost = sys.maxsize
             for goal in self.maze.goals:
                 cost = 0
-                #print(goal[1],",",goal[0]," // " , node.y,",",node.x)
                 vertical_distance = goal[1] - node.y
                 horizontal_distance = goal[0] - node.x
-                #print("v= " , vertical_distance ,",","h= ",horizontal_distance)
                 # Then we will add each node's cost until to the goal state...
                 x = 0
                 y = 0
@@ -135,23 +132,18 @@ class Graph:
                     y += 1
                     cost += self.get_node_cost(node.x, node.y + y)
                     vertical_distance -= 1
-                    #print("v> ",cost , "(x,y)= ",x,",",y)
                 while horizontal_distance > 0:
                     x += 1
                     cost += self.get_node_cost(node.x + x, node.y + y)
                     horizontal_distance -= 1
-                    #print("h> ",cost, "(x,y)= ",x,",",y)
                 while vertical_distance < 0:
                     y -= 1
                     cost += self.get_node_cost(node.x + x, node.y + y)
                     vertical_distance += 1
-                    #print("v< ",cost, "(x,y)= ",x,",",y)
                 while horizontal_distance < 0:
                     x -= 1
                     cost += self.get_node_cost(node.x + x, node.y + y)
                     horizontal_distance += 1
-                    #print("h< ",cost, "(x,y)= ",x,",",y)
-                #print(total_cost," || ",cost)
                 # Select the minimum heuristic...
                 total_cost = min(total_cost, cost)
 
