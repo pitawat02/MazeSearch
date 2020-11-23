@@ -14,7 +14,7 @@ class Maze:
 
 
     def read_maze(self):
-        temp = os.path.dirname(os.path.abspath(__file__))+'/map/maze24.txt'
+        temp = os.path.dirname(os.path.abspath(__file__))+'/map/maze24-2.txt'
         temp = temp.replace("\\","/")
         file = open(temp, "r")
         line = file.readline().rstrip("\n\r")
